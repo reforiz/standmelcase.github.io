@@ -1,1 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>StandMel | Кейсы Standoff 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
 
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #0a0f1f, #03050b);
+            font-family: 'Inter', sans-serif;
+            color: #eee;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* главный контейнер */
+        .app {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(10, 15, 30, 0.55);
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 24px 28px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+        }
+
+        /* шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD966, #FF6A6A);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+
+        .balance {
+            background: #12172fcc;
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 12px rgba(255, 200, 0, 0.2);
+        }
+
+        .balance span:first-child {
+            font-weight: 500;
+            color: #aaa;
+        }
+
+        .balance span:last-child {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-left: 12px;
+            color: #FFD966;
+        }
+
+        /* кейсы-карточки */
+        .cases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin: 40px 0 30px;
+        }
+
+        .case-card {
+            background: linear-gradient(145deg, #11161f, #0c0f18);
+            border-radius: 32px;
+            padding: 28px 20px 32px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .case-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 30px -10px black;
+            border-color: rgba(255, 100, 100, 0.3);
+        }
+
+        .case-icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        .case-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 8px;
+        }
+
+        .case-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 12px 0;
+            background: #1e2538;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .free-price {
+            color: #5aff8f;
+        }
+        .standart-price {
+            color: #ffa25b;
+        }
+
+        .timer-text {
+            font-size: 0.75rem;
+            background: #00000066;
+            padding: 5px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .open-btn {
+            background: linear-gradient(90deg, #ff4d4d, #c72a2a);
+            border: none;
+            padding: 14px 10px;
+            width: 100%;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-family: inherit;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 0 0 #5a1a1a;
+        }
+
+        .open-btn.standart-btn {
+            background: linear-gradient(90deg, #ffaa33, #e07c1f);
+            box-shadow: 0 4px 0 0 #7a3e0a;
+        }
+
+        .open-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 0 #5a1a1a;
+        }
+
+        /* модалка */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #0f121f;
+            border-radius: 48px;
+            width: 90%;
+            max-width: 460px;
+            padding: 32px 20px 40px;
+            text-align: center;
+            animation: pop 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid gold;
+        }
+
+        @keyframes pop {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .skin-rarity {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #2a2f44;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .skin-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 16px 0;
+            word-break: break-word;
+        }
+
+        .modal-close {
+            background: #2e3a5e;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 24px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .warning {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.5;
+            border-top: 1px solid #ffffff1a;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <div class="logo">
+            <h1>StandMel</h1>
+            <p>▸ открывай кейсы Standoff 2</p>
+        </div>
+        <div class="balance">
+            <span>💰 БАЛАНС</span>
+            <span id="balanceAmount">250</span> <span style="font-size:1rem;">₽</span>
+        </div>
+    </div>
+
+    <div class="cases">
+        <!-- FREE CASE -->
+        <div class="case-card">
+            <div class="case-icon">🎁</div>
+            <div class="case-title" style="color:#5aff8f;">FREE</div>
+            <div class="case-price free-price">0 ₽</div>
+            <div class="timer-text" id="freeTimer">⏳ Доступно сейчас</div>
+            <button class="open-btn" id="openFreeBtn">ОТКРЫТЬ БЕСПЛАТНО</button>
+        </div>
+
+        <!-- STANDART CASE 5₽ -->
+        <div class="case-card">
+            <div class="case-icon">⚡</div>
+            <div class="case-title" style="color:#ffaa66;">STANDART</div>
+            <div class="case-price standart-price">5 ₽</div>
+            <button class="open-btn standart-btn" id="openStandartBtn">ОТКРЫТЬ ЗА 5₽</button>
+            <div style="font-size:12px; margin-top:14px;">⭐ шанс на нож/мифику</div>
+        </div>
+    </div>
+    <div class="warning">
+        ⚠️ ДЕМО-РЕЖИМ • Все открытия симуляция • Для реальной оплаты потребуется интеграция с ЮMoney и соблюдение 54-ФЗ • Тестируйте в песочнице.
+    </div>
+</div>
+
+<!-- Модальное окно результата -->
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <div style="font-size: 3rem;" id="skinIcon">🔫</div>
+        <div class="skin-rarity" id="skinRarity">MIL-SPEC</div>
+        <div class="skin-name" id="skinName">M4A1-S | Иней</div>
+        <button class="modal-close" id="closeModalBtn">ЗАКРЫТЬ</button>
+    </div>
+</div>
+
+<script>
+    // ---------- БАЗА СКИНОВ Standoff 2 (имитация) ----------
+    const freeLoot = [
+        { name: "SSG 08 | Лава", rarity: "Industrial", icon: "🔥", grade: 1 },
+        { name: "FAMAS | Топограф", rarity: "Mil-Spec", icon: "🗺️", grade: 2 },
+        { name: "M4A4 | Зуб даю", rarity: "Mil-Spec", icon: "🦷", grade: 2 },
+        { name: "MP7 | Лесной камуфляж", rarity: "Industrial", icon: "🌲", grade: 1 },
+        { name: "P250 | Металл", rarity: "Consumer", icon: "⚙️", grade: 0 },
+        { name: "Five-SeveN | Соревнование", rarity: "Mil-Spec", icon: "🏆", grade: 2 }
+    ];
+
+    const standartLoot = [
+        { name: "AWP | Электрик", rarity: "Restricted", icon: "⚡", grade: 3 },
+        { name: "AK-47 | Изумруд", rarity: "Covert", icon: "💎", grade: 4 },
+        { name: "M9 Bayonet | БФК", rarity: "KNIFE (Mythical)", icon: "🔪", grade: 5, isKnife: true },
+        { name: "Desert Eagle | Кобра", rarity: "Classified", icon: "🐍", grade: 4 },
+        { name: "SSG 08 | Смерч", rarity: "Restricted", icon: "🌪️", grade: 3 },
+        { name: "Karambit | Фаде", rarity: "KNIFE (Legendary)", icon: "🌀", grade: 5, isKnife: true },
+        { name: "M4A1-S | Иней", rarity: "Covert", icon: "❄️", grade: 4 },
+        { name: "Glock-18 | Боевая", rarity: "Mil-Spec", icon: "🔫", grade: 2 }
+    ];
+
+    let balance = 250;
+    let lastFreeOpenTimestamp = 0;   // 0 значит можно открыть сейчас
+    let freeCooldownHours = 24;
+    const freeCooldownMs = 24 * 60 * 60 * 1000;
+
+    function updateBalanceUI() {
+        document.getElementById('balanceAmount').innerText = balance;
+    }
+
+    function saveFreeTime() {
+        localStorage.setItem('standmel_free_time', lastFreeOpenTimestamp);
+    }
+
+    function loadFreeTime() {
+        let saved = localStorage.getItem('standmel_free_time');
+        if(saved) {
+            lastFreeOpenTimestamp = parseInt(saved);
+        } else {
+            lastFreeOpenTimestamp = 0;
+        }
+    }
+
+    function updateFreeTimerUI() {
+        const timerDiv = document.getElementById('freeTimer');
+        if(!timerDiv) return;
+        const now = Date.now();
+        if(lastFreeOpenTimestamp === 0 || now >= lastFreeOpenTimestamp + freeCooldownMs) {
+            timerDiv.innerHTML = "✅ Доступно сейчас";
+            timerDiv.style.color = "#a0ffb0";
+            document.getElementById('openFreeBtn').disabled = false;
+            document.getElementById('openFreeBtn').style.opacity = "1";
+        } else {
+            const remaining = (lastFreeOpenTimestamp + freeCooldownMs) - now;
+            const hoursLeft = Math.floor(remaining / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((remaining % (3600000)) / 60000);
+            timerDiv.innerHTML = `⏳ Доступно через ${hoursLeft}ч ${minutesLeft}мин`;
+            timerDiv.style.color = "#ffaa88";
+            document.getElementById('openFreeBtn').disabled = true;
+            document.getElementById('openFreeBtn').style.opacity = "0.6";
+        }
+    }
+
+    function setFreeCooldown() {
+        lastFreeOpenTimestamp = Date.now();
+        saveFreeTime();
+        updateFreeTimerUI();
+    }
+
+    function getRandomItem(arr, isStandart = false) {
+        if(isStandart) {
+            // повышенный шанс на нож ~7%
+            const rand = Math.random() * 100;
+            let pool = [...standartLoot];
+            if(rand < 7) { // нож гарант, но выберем из ножей
+                const knives = standartLoot.filter(i => i.isKnife);
+                if(knives.length) return knives[Math.floor(Math.random() * knives.length)];
+            }
+            return pool[Math.floor(Math.random() * pool.length)];
+        } else {
+            return freeLoot[Math.floor(Math.random() * freeLoot.length)];
+        }
+    }
+
+    function showResult(skin, caseType) {
+        const modal = document.getElementById('resultModal');
+        const skinIconSpan = document.getElementById('skinIcon');
+        const skinRaritySpan = document.getElementById('skinRarity');
+        const skinNameSpan = document.getElementById('skinName');
+
+        skinIconSpan.innerText = skin.icon || (skin.isKnife ? '🔪' : '🎲');
+        skinRaritySpan.innerText = skin.rarity;
+        skinNameSpan.innerText = skin.name;
+
+        // цвет рамки rarity
+        let borderColor = "#ffaa44";
+        if(skin.rarity.includes("KNIFE")) borderColor = "#ff66c0";
+        if(skin.rarity === "Covert") borderColor = "#e84cff";
+        if(skin.rarity === "Restricted") borderColor = "#4c9eff";
+        document.querySelector('.modal-content').style.borderColor = borderColor;
+        
+        modal.style.display = "flex";
+    }
+
+    function openFreeCase() {
+        const now = Date.now();
+        if(lastFreeOpenTimestamp !== 0 && now < lastFreeOpenTimestamp + freeCooldownMs) {
+            alert("❌ Бесплатный кейс ещё не восстановился. Жди таймер!");
+            return false;
+        }
+        const droppedSkin = getRandomItem(freeLoot, false);
+        showResult(droppedSkin, 'free');
+        setFreeCooldown();
+        return true;
+    }
+
+    function openStandartCase() {
+        if(balance < 5) {
+            alert("❌ Не хватает рублей! Пополни баланс (демо: добавим 150₽)");
+            // демо-подпитка
+            balance += 150;
+            updateBalanceUI();
+            alert("➕ Тестовое пополнение +150₽ (симуляция)");
+            return false;
+        }
+        balance -= 5;
+        updateBalanceUI();
+        const droppedSkin = getRandomItem(standartLoot, true);
+        showResult(droppedSkin, 'standart');
+        return true;
+    }
+
+    // Инициализация + таймер
+    loadFreeTime();
+    updateBalanceUI();
+    updateFreeTimerUI();
+    setInterval(() => {
+        updateFreeTimerUI();
+    }, 30000);
+
+    // обработчики
+    document.getElementById('openFreeBtn').addEventListener('click', () => openFreeCase());
+    document.getElementById('openStandartBtn').addEventListener('click', () => openStandartCase());
+    document.getElementById('closeModalBtn').addEventListener('click', () => {
+        document.getElementById('resultModal').style.display = "none";
+    });
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('resultModal');
+        if(e.target === modal) modal.style.display = "none";
+    });
+
+    // легенда: при первом запуске если lastFreeOpenTimestamp старый , то разрешаем
+    if(lastFreeOpenTimestamp !== 0 && (Date.now() > lastFreeOpenTimestamp + freeCooldownMs)) {
+        lastFreeOpenTimestamp = 0;
+        saveFreeTime();
+        updateFreeTimerUI();
+    }
+</script>
+</body>
+  </html>
